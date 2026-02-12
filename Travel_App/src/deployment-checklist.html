@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배포 체크리스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            font-size: 20px;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checklist li:hover {
+            background: #e0e0e0;
+            transform: translateX(5px);
+        }
+        
+        .checklist li.checked {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .checklist li input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box strong {
+            color: #1976D2;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-box.show {
+            display: block;
+        }
+        
+        .progress {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 배포 체크리스트</h1>
+            <p>여행 추천 앱 배포 전 확인사항</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="info-box">
+                <strong>📊 진행률:</strong> <span id="progressText">0/0 (0%)</span>
+            </div>
+            
+            <div class="success-box" id="successBox">
+                <strong>🎉 축하합니다!</strong> 모든 체크리스트를 완료했습니다. 이제 배포를 진행하세요!
+            </div>
+            
+            <!-- Supabase 설정 -->
+            <div class="section">
+                <h2>☁️ Supabase 설정</h2>
+                <div class="info-box">
+                    <strong>Project ID:</strong> <code>stalcrpbrdwtjqamnenx</code><br>
+                    <strong>Backend URL:</strong> <code>https://stalcrpbrdwtjqamnenx.supabase.co/functions/v1/make-server-a8dd3f70</code>
+                </div>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check1">
+                        <label for="check1">Edge Function이 배포되어 있음</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check2">
+                        <label for="check2">OPENWEATHER_API_KEY 설정됨</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check3">
+                        <label for="check3">OPENAI_API_KEY 설정됨</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check4">
+                        <label for="check4">KAKAO_REST_API_KEY 설정됨</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check5">
+                        <label for="check5">GOOGLE_PLACES_API_KEY 설정됨</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 로컬 빌드 테스트 -->
+            <div class="section">
+                <h2>🔨 로컬 빌드 테스트</h2>
+                <div class="warning-box">
+                    <strong>⚠️ 중요:</strong> 배포 전에 반드시 로컬에서 빌드를 테스트하세요!
+                </div>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check6">
+                        <label for="check6"><code>npm install</code> 실행 완료</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check7">
+                        <label for="check7"><code>npm run build</code> 성공</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check8">
+                        <label for="check8"><code>build</code> 폴더 생성됨</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check9">
+                        <label for="check9"><code>npm run preview</code>로 미리보기 확인</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- GitHub 설정 -->
+            <div class="section">
+                <h2>📦 GitHub 저장소</h2>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check10">
+                        <label for="check10">GitHub 저장소 생성 완료</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check11">
+                        <label for="check11">코드를 GitHub에 푸시 완료</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check12">
+                        <label for="check12">README.md 작성 (선택사항)</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 배포 플랫폼 선택 -->
+            <div class="section">
+                <h2>🌐 배포 플랫폼 선택</h2>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check13">
+                        <label for="check13">Vercel 또는 Netlify 계정 생성</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check14">
+                        <label for="check14">프로젝트 import 완료</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check15">
+                        <label for="check15">환경 변수 설정 (<code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code>)</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check16">
+                        <label for="check16">빌드 설정 확인 (Build: <code>npm run build</code>, Output: <code>build</code>)</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Kakao Map 설정 -->
+            <div class="section">
+                <h2>🗺️ Kakao Map 설정</h2>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check17">
+                        <label for="check17">Kakao Developers에서 앱 등록</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check18">
+                        <label for="check18">배포된 도메인을 Web 플랫폼에 추가</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 배포 후 테스트 -->
+            <div class="section">
+                <h2>✅ 배포 후 테스트</h2>
+                <ul class="checklist">
+                    <li>
+                        <input type="checkbox" id="check19">
+                        <label for="check19">메인 페이지 로딩 확인</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check20">
+                        <label for="check20">AI 성향 분석 작동 확인</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check21">
+                        <label for="check21">여행지 추천 작동 확인</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check22">
+                        <label for="check22">지도 표시 확인</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check23">
+                        <label for="check23">로그인/회원가입 작동 확인</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="check24">
+                        <label for="check24">모바일 반응형 확인</label>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="btn-group">
+                <a href="DEPLOY_STEPS.md" class="btn" target="_blank">📚 배포 가이드 보기</a>
+                <button class="btn" onclick="resetChecklist()">🔄 체크리스트 초기화</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load saved state from localStorage
+        function loadState() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                const saved = localStorage.getItem(checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('checked');
+                }
+            });
+            updateProgress();
+        }
+        
+        // Save state to localStorage
+        function saveState() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        }
+        
+        // Update progress
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${checked}/${total} (${percentage}%)`;
+            
+            if (checked === total) {
+                document.getElementById('successBox').classList.add('show');
+            } else {
+                document.getElementById('successBox').classList.remove('show');
+            }
+        }
+        
+        // Reset checklist
+        function resetChecklist() {
+            if (confirm('체크리스트를 초기화하시겠습니까?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+        
+        // Add event listeners
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    this.parentElement.classList.add('checked');
+                } else {
+                    this.parentElement.classList.remove('checked');
+                }
+                saveState();
+                updateProgress();
+            });
+            
+            // Also allow clicking on the list item
+            checkbox.parentElement.addEventListener('click', function(e) {
+                if (e.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+        
+        // Load state on page load
+        loadState();
+    </script>
+</body>
+</html>
